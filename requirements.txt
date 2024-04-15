@@ -4,3 +4,5 @@ flask
 Pyarrow
 opendatasets
 Gunicorn
+Flask-MySQLdb
+Flask-Argon2
