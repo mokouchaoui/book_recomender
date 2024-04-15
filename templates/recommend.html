@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recommender | For You</title>
+
+  <!-- F A V I C O N ---------------------------------------------------------------------------------------------->
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+  <!-- --------------------------------------------------------------------------------------------------------- -->
+
+  <!------------------------------------------------- TAILWIND CSS ------------------------------------------------>
+  <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
+  <!--------------------------------------------------------------------------------------------------------------->
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  
+</head>
+
+<body class="h-screen w-screen bg-gray-200">
+
+    <nav class="bg-gradient-to-b from-gray-800 to-gray-700 p-4 text-white">
+      <div class="container mx-auto flex items-center justify-between md:justify-start">
+  
+        <a href="/" class="text-lg font-bold md:mr-20">Recommender</a>
+  
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="block focus:outline-none md:hidden">
+          <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6h16M4 12h16m-7 6h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+  
+        <!-- Navigation Links -->
+        <div id="mobile-menu" class="hidden md:flex md:items-center md:space-x-12">
+          <a href="/top50" class="hover:text-blue-300">Top 50</a>
+          <a href="/recommend" class="hover:text-blue-300">For You</a>
+          <a href="/about" class="hover:text-blue-300">About</a>
+        </div>
+      </div>
+    </nav>
+  
+    <!-- Mobile Navigation Menu (hidden by default) -->
+    <div class="w-screen fixed z-50 bg-gray-600 py-2 text-white md:hidden hidden" id="mobile-menu-container">
+      <div class="container mx-auto w-full">
+        <button class="block hover:text-gray-300 focus:outline-none px-4 py-2 w-full"><a href="/top50"
+            class="block hover:text-blue-300">Top 50</a></button>
+        <button class="block hover:text-gray-300 focus:outline-none px-4 py-2 w-full"><a href="/recommend"
+            class="block hover:text-blue-300">For You</a></button>
+        <button class="block hover:text-gray-300 focus:outline-none px-4 py-2 w-full"><a href="/about"
+            class="block hover:text-blue-300">About</a></button>
+      </div>
+    </div>
+  
+    <!----- Input and Output ----->
+    <div class="mx-auto mb-40 mt-12 px-6 md:px-20" id="prompt">
+
+      <h1 class="md:text-3xl text-2xl font-bold text-center mb-12">
+        {{ title }}<span class="text-blue-600">{{ book_title }}</span>
+      </h1>
+
+      {% if not data %}
+      <form method="post" action="/recommend_books" class="mx-auto max-w-lg h-screen px-8">
+        <div class="flex items-center border-b border-b-1 border-teal-500 py-2">
+
+          <input type="text" name="user_input" placeholder="Enter book title (e.g. The Da Vinci Code)" value=""
+            class="appearance-none rounded border-none w-full text-gray-700 mr-3 py-2 px-2 leading-tight focus:outline-none focus:ring-1 focus:ring-blue-400">
+
+          <button type="submit"
+            class="flex-shrink-0 bg-blue-500 hover:bg-blue-600 border-blue-500 hover:border-blue-600 text-sm border-4 text-white py-1 px-2 rounded focus:outline-none focus:bg-blue-600">Search</button>
+
+        </div>
+      </form>
+      {% endif %}
+
+      {% if data %}
+      <div class="grid md:gap-8 gap-y-6 gap-x-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+
+      {% for i in data %}
+
+        <div class="rounded-lg bg-gradient-to-br from-blue-300 to-indigo-500 text-white overflow-hidden shadow-md">
+          <img src="{{ i[5] }}" alt="Book Cover"
+            class="w-full h-40 object-contain">
+
+          <div class="p-4">
+          
+            <h2 class="text-lg font-bold mb-2">{{ i[1] }}</h2>
+          
+            <p class="text-gray-700 mb-2">by <span class="text-black font-bold">{{ i[2] }}</span></p>
+          
+            <p class="text-gray-700 mb-2 font-semibold ">{{ i[3] }}</p>
+
+            <p class="text-gray-700 mb-2">Published in&nbsp;<b class="text-yellow-300">{{ i[4] }}</b></p>
+          
+          </div>
+
+        </div>
+        {% endfor %}
+
+      </div>
+      {% endif %}
+      
+    </div>
+  
+    <!-- Footer -->
+    <footer class="w-screen bg-gradient-to-t from-gray-800 to-gray-700 p-4 text-white bottom-0">
+      <code
+        class="flex items-center justify-center text-xs">Made with &#128153; by&nbsp;<a href="https://github.com/nirmit27" style="color: skyblue;">Nirmit Mishra</a>.</code>
+    </footer>
+  
+    <script>
+      // Mobile Responsive Menu
+  
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenuList = document.getElementById('mobile-menu-container');
+  
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuList.classList.toggle('hidden');
+      });
+
+      // 
+
+    </script>
+  
+  </body>
+
+</html>
