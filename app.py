@@ -27,7 +27,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'recommender'
-app.secret_key = 'your_secret_key'
+app.secret_key = 'testmiaw'
 
 mysql = MySQL(app)
 argon2 = Argon2(app)
